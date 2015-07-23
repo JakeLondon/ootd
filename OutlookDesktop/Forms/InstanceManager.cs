@@ -352,22 +352,22 @@ namespace OutlookDesktop.Forms
         private void AddInstanceMenu_Click(object sender, EventArgs e)
         {
             var result = InputBox.Show(this, "", Resources.NewInstanceName, string.Empty, InputBox_Validating);
-            if (result.Ok)
-            {
-                // trigger the tray icon context menu to show the second instance
-                var mainForm = new MainForm(result.Text);
-                mainForm.Dispose();
 
-                LoadInstances();
+            if (!result.Ok) return;
 
-                // reposition the newly added instance so that it's not directly on top of the previous one
-                _mainFormInstances[result.Text].Left = _mainFormInstances[result.Text].Left + 400;
-                _mainFormInstances[result.Text].Top = _mainFormInstances[result.Text].Top + 200;
+            // trigger the tray icon context menu to show the second instance
+            var mainForm = new MainForm(result.Text);
+            mainForm.Dispose();
 
-                // Save the new position so that it's correctly loaded on next run
-                _mainFormInstances[result.Text].Preferences.Left = _mainFormInstances[result.Text].Left;
-                _mainFormInstances[result.Text].Preferences.Top = _mainFormInstances[result.Text].Top;
-            }
+            LoadInstances();
+
+            // reposition the newly added instance so that it's not directly on top of the previous one
+            _mainFormInstances[result.Text].Left = _mainFormInstances[result.Text].Left + 400;
+            _mainFormInstances[result.Text].Top = _mainFormInstances[result.Text].Top + 200;
+
+            // Save the new position so that it's correctly loaded on next run
+            _mainFormInstances[result.Text].Preferences.Left = _mainFormInstances[result.Text].Left;
+            _mainFormInstances[result.Text].Preferences.Top = _mainFormInstances[result.Text].Top;
         }
 
         private static void InputBox_Validating(object sender, InputBoxValidatingEventArgs e)

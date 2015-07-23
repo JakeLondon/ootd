@@ -46,7 +46,7 @@
     <SignAssembly>false</SignAssembly>
     <OldToolsVersion>3.5</OldToolsVersion>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <PublishUrl>publish\</PublishUrl>
@@ -327,7 +327,7 @@
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>
-    <PostBuildEvent>call "$(DevEnvDir)..\..\VC\bin\vcvars32.bat"
-call "$(DevEnvDir)..\..\VC\bin\editbin.exe" /NXCOMPAT:NO "$(TargetPath)"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>

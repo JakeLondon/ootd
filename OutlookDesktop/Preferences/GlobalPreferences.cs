@@ -23,36 +23,33 @@ namespace OutlookDesktop.Preferences
                 using (
                     var key = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run"))
                 {
-                    if (key != null)
-                    {
-                        var val = (string)key.GetValue("OutlookOnDesktop");
-                        return (!string.IsNullOrEmpty(val));
-                    }
+                    if (key == null) return false;
+
+                    var val = (string)key.GetValue("OutlookOnDesktop");
+                    return (!string.IsNullOrEmpty(val));
                 }
-                return false;
             }
             set
             {
                 using (var key = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run", true))
                 {
-                    if (key != null)
+                    if (key == null) return;
+
+                    try
                     {
-                        try
+                        if (value)
                         {
-                            if (value)
-                            {
-                                key.SetValue("OutlookOnDesktop", Application.ExecutablePath);
-                            }
-                            else
-                            {
-                                if (key.GetValue("OutlookOnDesktop") != null)
-                                    key.DeleteValue("OutlookOnDesktop");
-                            }
+                            key.SetValue("OutlookOnDesktop", Application.ExecutablePath);
                         }
-                        catch (Exception ex)
+                        else
                         {
-                            Logger.Error(ex, "Exception caught setting Start with Windows Key");
+                            if (key.GetValue("OutlookOnDesktop") != null)
+                                key.DeleteValue("OutlookOnDesktop");
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error(ex, "Exception caught setting Start with Windows Key");
                     }
                 }
             }
@@ -64,14 +61,13 @@ namespace OutlookDesktop.Preferences
             {
                 using (var key = Registry.CurrentUser.CreateSubKey("Software\\" + Application.CompanyName + "\\" + Application.ProductName))
                 {
-                    if (key != null)
+                    if (key == null) return false;
+
+                    bool lockPositions;
+                    if (bool.TryParse((string)key.GetValue("LockPosition", "false"), out lockPositions) &&
+                        lockPositions)
                     {
-                        bool lockPositions;
-                        if (bool.TryParse((string)key.GetValue("LockPosition", "false"), out lockPositions) &&
-                            lockPositions)
-                        {
-                            return true;
-                        }
+                        return true;
                     }
                 }
                 return false;
@@ -80,10 +76,7 @@ namespace OutlookDesktop.Preferences
             {
                 using (var key = Registry.CurrentUser.CreateSubKey("Software\\" + Application.CompanyName + "\\" + Application.ProductName))
                 {
-                    if (key != null)
-                    {
-                        key.SetValue("LockPosition", value);
-                    }
+                    key?.SetValue("LockPosition", value);
                 }
             }
         }

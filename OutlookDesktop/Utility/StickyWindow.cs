@@ -35,9 +35,6 @@ namespace Blue.Private.Win32Imports
         [DllImport("user32.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
         private static extern short GetAsyncKeyState(int vKey);
 
-        [DllImport("user32.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr GetDesktopWindow();
-
         /// <summary>
         ///     VK is just a placeholder for VK (VirtualKey) general definitions
         /// </summary>
@@ -774,12 +771,12 @@ namespace Blue.Windows
             {
                 if (bInsideStick)
                 {
-                    if (Math.Abs(_formRect.Top - toRect.Bottom) <= Math.Abs(_formOffsetPoint.Y) && bInsideStick)
+                    if (Math.Abs(_formRect.Top - toRect.Bottom) <= Math.Abs(_formOffsetPoint.Y))
                     {
                         // Stick Top to Bottom
                         _formOffsetPoint.Y = toRect.Bottom - _formRect.Top;
                     }
-                    if (Math.Abs(_formRect.Top + _formRect.Height - toRect.Top) <= Math.Abs(_formOffsetPoint.Y) && bInsideStick)
+                    if (Math.Abs(_formRect.Top + _formRect.Height - toRect.Top) <= Math.Abs(_formOffsetPoint.Y))
                     {
                         // snap Bottom to Top
                         _formOffsetPoint.Y = toRect.Top - _formRect.Height - _formRect.Top;
